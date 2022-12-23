@@ -70,11 +70,11 @@ class _ResetPasswordState extends State<ResetPassword> {
                     if (_formKey.currentState!.validate()) {
                       ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text("Processing Data")));
+                      FirebaseAuth.instance
+                          .sendPasswordResetEmail(
+                              email: _emailTextController.text)
+                          .then((value) => Navigator.of(context).pop());
                     }
-                    FirebaseAuth.instance
-                        .sendPasswordResetEmail(
-                            email: _emailTextController.text)
-                        .then((value) => Navigator.of(context).pop());
                   },
                 ),
               ],
