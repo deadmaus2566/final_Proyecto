@@ -2,6 +2,7 @@ import 'package:final_sinup_and_singout_and_register/screens/home_scree.dart';
 import 'package:final_sinup_and_singout_and_register/screens/reset_password.dart';
 import 'package:final_sinup_and_singout_and_register/screens/signup_screen.dart';
 import 'package:final_sinup_and_singout_and_register/widget/widgets_reusables.dart';
+import 'package:final_sinup_and_singout_and_register/widget/widgets_reusables2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,8 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  GlobalKey<FormState> _formKey = GlobalKey();
+
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
   @override
@@ -36,29 +39,69 @@ class _SignInScreenState extends State<SignInScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                reusableTextField("Enter Email", Icons.person_outline, false,
-                    _emailTextController),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      InputText(
+                        text: "Email",
+                        icon: Icons.email_outlined,
+                        isPasswordType: false,
+                        controller: _emailTextController,
+                        validator: (String? value) {
+                          if (value!.isEmpty || value.contains("@")) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text("Please Enter Your Email")));
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                  ),
+                ),
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Enter Password", Icons.lock_outline, true,
-                    _passwordTextController),
+                InputText(
+                  text: "Password",
+                  icon: Icons.lock_outline,
+                  isPasswordType: true,
+                  controller: _passwordTextController,
+                  validator: (String? value) {
+                    if (value!.isEmpty || value.length < 6) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("Please Enter Your Password")));
+                    }
+                    return null;
+                  },
+                ),
                 const SizedBox(
                   height: 5,
                 ),
                 forgetPassword(context),
-                firebaseUIButton(context, "Sign In", () {
-                  FirebaseAuth.instance
-                      .signInWithEmailAndPassword(
-                          email: _emailTextController.text,
-                          password: _passwordTextController.text)
-                      .then((value) {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
-                  }).onError((error, stackTrace) {
-                    print("Error ${error.toString()}");
-                  });
-                }),
+                FireBaseUIButton(
+                  context: context,
+                  title: "Sign In",
+                  onTap: () {
+                    if (_formKey.currentState!.validate()) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Processing Data")));
+                    }
+                    FirebaseAuth.instance
+                        .signInWithEmailAndPassword(
+                            email: _emailTextController.text,
+                            password: _passwordTextController.text)
+                        .then((value) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomeScreen()));
+                    }).onError((error, stackTrace) {
+                      print("Error ${error.toString()}");
+                    });
+                  },
+                ),
                 signUpOption()
               ],
             ),
