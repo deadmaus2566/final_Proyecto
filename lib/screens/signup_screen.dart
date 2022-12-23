@@ -110,20 +110,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     if (_formKey.currentState!.validate()) {
                       ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text("Processing Data")));
+                      FirebaseAuth.instance
+                          .createUserWithEmailAndPassword(
+                              email: _emailTextController.text,
+                              password: _passwordTextController.text)
+                          .then((value) {
+                        print("Created New Account");
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomeScreen()));
+                      }).onError((error, stackTrace) {
+                        print("Error ${error.toString()}");
+                      });
                     }
-                    FirebaseAuth.instance
-                        .createUserWithEmailAndPassword(
-                            email: _emailTextController.text,
-                            password: _passwordTextController.text)
-                        .then((value) {
-                      print("Created New Account");
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomeScreen()));
-                    }).onError((error, stackTrace) {
-                      print("Error ${error.toString()}");
-                    });
                   },
                 )
               ],

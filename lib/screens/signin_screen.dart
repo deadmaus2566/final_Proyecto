@@ -49,10 +49,12 @@ class _SignInScreenState extends State<SignInScreen> {
                         isPasswordType: false,
                         controller: _emailTextController,
                         validator: (String? value) {
-                          if (value!.isEmpty || value.contains("@")) {
+                          if (value!.isEmpty || !value.contains("@")) {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                    content: Text("Please Enter Your Email")));
+                                    content: Text(
+                                        "Please Enter Your Validate Email")));
+                            ;
                           }
                           return null;
                         },
@@ -87,19 +89,19 @@ class _SignInScreenState extends State<SignInScreen> {
                     if (_formKey.currentState!.validate()) {
                       ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text("Processing Data")));
+                      FirebaseAuth.instance
+                          .signInWithEmailAndPassword(
+                              email: _emailTextController.text,
+                              password: _passwordTextController.text)
+                          .then((value) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomeScreen()));
+                      }).onError((error, stackTrace) {
+                        print("Error ${error.toString()}");
+                      });
                     }
-                    FirebaseAuth.instance
-                        .signInWithEmailAndPassword(
-                            email: _emailTextController.text,
-                            password: _passwordTextController.text)
-                        .then((value) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomeScreen()));
-                    }).onError((error, stackTrace) {
-                      print("Error ${error.toString()}");
-                    });
                   },
                 ),
                 signUpOption()
