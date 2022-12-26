@@ -10,14 +10,14 @@ Image logoWidget(String imageName) {
   );
 }
 
-class InputText extends StatefulWidget {
+class InputText extends StatelessWidget {
   final String? text;
   final IconData? icon;
   final bool? isPasswordType;
   final TextEditingController? controller;
   final String? Function(String? value)? validator;
 
-  InputText({
+  const InputText({
     Key? key,
     this.text,
     this.isPasswordType = false,
@@ -27,35 +27,49 @@ class InputText extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<InputText> createState() => _InputTextState();
-}
-
-class _InputTextState extends State<InputText> {
-  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      validator: widget.validator,
-      controller: widget.controller,
-      obscureText: widget.isPasswordType!,
-      enableSuggestions: !widget.isPasswordType!,
-      autocorrect: !widget.isPasswordType!,
+      validator: validator,
+      controller: controller,
+      obscureText: isPasswordType!,
+      enableSuggestions: !isPasswordType!,
+      autocorrect: !isPasswordType!,
       cursorColor: Colors.white,
-      style: TextStyle(color: Colors.white.withOpacity(0.9)),
+      style: TextStyle(
+        color: Colors.white.withOpacity(
+          0.9,
+        ),
+      ),
       decoration: InputDecoration(
         prefixIcon: Icon(
-          widget.icon,
+          icon,
           color: Colors.white70,
         ),
-        labelText: widget.text,
-        labelStyle: TextStyle(color: Colors.white.withOpacity(0.9)),
+        labelText: text,
+        labelStyle: TextStyle(
+          color: Colors.white.withOpacity(
+            0.9,
+          ),
+        ),
         filled: true,
         floatingLabelBehavior: FloatingLabelBehavior.never,
-        fillColor: Colors.white.withOpacity(0.3),
+        fillColor: Colors.white.withOpacity(
+          0.3,
+        ),
+        errorStyle: const TextStyle(
+          color: Colors.white,
+        ),
         border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30.0),
-            borderSide: const BorderSide(width: 0, style: BorderStyle.none)),
+          borderRadius: BorderRadius.circular(
+            30.0,
+          ),
+          borderSide: const BorderSide(
+            width: 0,
+            style: BorderStyle.none,
+          ),
+        ),
       ),
-      keyboardType: widget.isPasswordType!
+      keyboardType: isPasswordType!
           ? TextInputType.visiblePassword
           : TextInputType.emailAddress,
     );
