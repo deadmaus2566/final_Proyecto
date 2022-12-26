@@ -20,9 +20,8 @@ class SignInScreen extends StatelessWidget {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(
-        email: _emailTextController.text,
-        password: _passwordTextController.text,
-      )
+              email: _emailTextController.text,
+              password: _passwordTextController.text)
           .then((value) {
         Navigator.push(
           context,
@@ -235,7 +234,7 @@ class _ForgetPassword extends StatelessWidget {
         onPressed: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const ResetPassword(),
+            builder: (context) => ResetPassword(),
           ),
         ),
       ),
