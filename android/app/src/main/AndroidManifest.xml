@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.final_sinup_and_singout_and_register">
+
    <application
         android:label="final_sinup_and_singout_and_register"
         android:name="${applicationName}"
