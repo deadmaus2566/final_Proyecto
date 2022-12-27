@@ -51,10 +51,17 @@ class _ResetPasswordState extends State<ResetPassword> {
                       icon: Icons.email_outlined,
                       isPasswordType: false,
                       controller: _emailTextController,
-                      validator: (String? value) {
-                        if (value!.isEmpty || value.contains("@")) {
-                          return "Please Enter Your Email";
+                      validator: (value) {
+                        if (value!.isEmpty || !value.contains("@")) {
+                          return "Ingrese un correo electrónico valido";
                         }
+
+                        if (!RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value)) {
+                          return 'El valor ingresado no es un correo electrónico';
+                        }
+
                         return null;
                       },
                     ),
