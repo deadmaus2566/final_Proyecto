@@ -89,24 +89,26 @@ class ResetPassword extends StatelessWidget {
                 ),
                 Form(
                   key: _formKey,
-                  child: InputText(
-                    text: "Correo electrónico",
-                    icon: Icons.email_outlined,
-                    isPasswordType: false,
-                    controller: _emailTextController,
-                    validator: (value) {
-                      if (value!.isEmpty || !value.contains("@")) {
-                        return "Ingrese un correo electrónico valido";
-                      }
+                  child: Container(
+                    child: InputText(
+                      text: "Email",
+                      icon: Icons.email_outlined,
+                      isPasswordType: false,
+                      controller: _emailTextController,
+                      validator: (value) {
+                        if (value!.isEmpty || !value.contains("@")) {
+                          return "Ingrese un correo electrónico valido";
+                        }
 
-                      if (!RegExp(
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                          .hasMatch(value)) {
-                        return 'El valor ingresado no es un correo electrónico';
-                      }
+                        if (!RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value)) {
+                          return 'El valor ingresado no es un correo electrónico';
+                        }
 
-                      return null;
-                    },
+                        return null;
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(
