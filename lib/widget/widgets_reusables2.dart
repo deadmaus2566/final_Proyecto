@@ -6,6 +6,7 @@ class FireBaseUIButton extends StatelessWidget {
   final Function? onTap;
   final bool isIcon;
   final IconData? icon;
+
   const FireBaseUIButton({
     Key? key,
     this.context,
